@@ -1,14 +1,7 @@
 import nodemailer from "nodemailer";
-// import dotenv from "dotenv";
-// dotenv.config();
-
+// import cirlceLogo from "../../../client/public/cirlceLogo.png"
 const sendEmail = async (to, subject, message) => {
   try {
-    //   console.log("Started Sending Email");
-
-    //    console.log(process.env.GMAIL_USERNAME);
-
-    //    console.log(process.env.GMAIL_PASSCODE);
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
