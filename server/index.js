@@ -8,7 +8,9 @@ import RestaurantRouter from "./src/router/restaurant.route.js";
 import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
+import AdminRouter from "./src/router/admin.route.js"
+import CustomerRouter from "./src/router/customer.route.js"
+import RiderRouter from "./src/router/rider.route.js"
 const app = express();
 
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
@@ -22,6 +24,10 @@ app.use("/public", PublicRouter);
 app.use("/common", CommonRouter);
 // app.use("/user", CommonRouter);
 app.use("/restaurant", RestaurantRouter);
+app.use("/admin", AdminRouter);
+app.use("/rider", RiderRouter);
+app.use("/customer", CustomerRouter);
+
 //Default API
 app.get("/", (req, res) => {
   console.log("Default Get API Hit");
