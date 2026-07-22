@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import {useAuth} from "../../../../context/AuthContext"
 import PasswordChangeModal from '../../../commonModals/PasswordChangeModal'
 import { MdEdit, MdOutlineAddAPhoto, MdOutlineLockReset } from "react-icons/md";
@@ -6,51 +6,65 @@ import api from "../../../../config/ApiConfig"
 import toast from "react-hot-toast"
 
 const PersonalInformation = () => {
-  const {user, setUser} = useAuth();
+  const { user, setUser } = useAuth();
 
-  // Common State Variables
-
-  const [isLoading,setIsLoading] = useState(false);
-  const [isPasswordChangeModalOpen, setIsPasswordChangeModalOpen]=useState(false);
-
-  //Profile Handlers
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPasswordChangeModalOpen, setIsPasswordChangeModalOpen] = useState(false);
   const [editingProfile, setEditingProfile] = useState(false);
-  const [profilePic,setProfilePic] = useState(null);
+  const [profilePic, setProfilePic] = useState(null);
   const [profilePicPreview, setProfilePicPreview] = useState(null);
   const [profileFormData, setProfileFormData] = useState({
-    fullName: user?.fullname || "",
+    fullName: user?.fullName || "",
     email: user?.email || "",
     phone: user?.phone || "",
-  })
+  });
 
-  const handleProfileChange = (e)=>{
-    const {name,value} = e.target;
-    setProfileFormData({ ...profileFormData, [name]:value});
+  // Sync form whenever user changes
+  useEffect(() => {
+    if (user) {
+      setProfileFormData({
+        fullName: user.fullName,
+        email: user.email,
+        phone: user.phone,
+      });
+    }
+  }, [user]);
 
-  }
+  const handleProfileChange = (e) => {
+    const { name, value } = e.target;
+    setProfileFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleSaveProfile = async ()=>{
-    try{
+  const handleSaveProfile = async () => {
+    try {
       setIsLoading(true);
       const payload = new FormData();
       payload.append("fullName", profileFormData.fullName);
-      payload.append("email",profileFormData.email.toLowerCase())
-      payload.append("phone", profileFormData.phone)
+      payload.append("email", profileFormData.email.toLowerCase());
+      payload.append("phone", profileFormData.phone);
       payload.append("displayPic", profilePic);
-      const response = await api.put(`/common/edit-profile`, payload);
 
-      setUser(response.data.data);
-      sessionStorage.setItem("cravingUser", JSON.stringify(response.data.data));
+      const response = await api.put(`/common/edit-profile`, payload);
+      const updatedUser = response.data.data;
+
+      // Sync both user and form
+      setUser(updatedUser);
+      setProfileFormData({
+        fullName: updatedUser.fullName,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+      });
+
+      sessionStorage.setItem("cravingUser", JSON.stringify(updatedUser));
 
       setEditingProfile(false);
       toast.success("Profile updated successfully!");
-    }catch (err) {
+    } catch (err) {
       toast.error(err.response?.data?.message || "Failed to update profile");
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   const handleCancelProfile = () => {
     setProfileFormData({
@@ -67,7 +81,6 @@ const PersonalInformation = () => {
     setProfilePicPreview(URL.createObjectURL(file));
     setProfilePic(file);
   };
-
 
   return (
  <>
@@ -195,4 +208,4 @@ const PersonalInformation = () => {
   )
 }
 
-export default PersonalInformation
+export default PersonalInformation;
