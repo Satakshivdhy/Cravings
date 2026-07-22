@@ -4,8 +4,9 @@ import api from "../../config/ApiConfig";
 import toast from "react-hot-toast";
 import { RiLoader4Fill } from "react-icons/ri";
 import { useAuth } from "../../context/AuthContext";
-import Information from "./settings/restaurantInformation/index";
-import ResturantCoreDetails from "./settings/ResturantCoreDetails";
+import Information from "./settings/restaurantInformation/Index";
+import RestaurantCoreDetails from "./settings/restaurantCoreDetails/Index"
+// import ResturantCoreDetails from "./settings/ResturantCoreDetails";
 import RestaurantPhotos from "./settings/RestaurantPhotos";
 import Loader from "../../assets/runningLoader.gif";
 import { IoMdHammer } from "react-icons/io";
@@ -17,7 +18,7 @@ const RestaurantSetting = () => {
     { id: "coreDetails", label: "Core Details" },
     { id: "photos", label: "Photos" },
   ];
-  const [activeTab, setActiveTab] = useState("information");
+  const [activeTab, setActiveTab] = useState("coreDetails");
   const [isLoadingResturantOpen, setIsLoadingResturantOpen] = useState(true);
   const [isRestaurantOpen, setIsRestaurantOpen] = useState(
     () => sessionStorage.getItem("RestaurantOpen") || false,
@@ -135,7 +136,7 @@ const RestaurantSetting = () => {
         ) : (
           <div className="h-full rounded-lg bg-(--color-base-200) p-2">
             {activeTab === "information" && <Information />}
-            {activeTab === "coreDetails" && <ResturantCoreDetails />}
+            {activeTab === "coreDetails" && <RestaurantCoreDetails />}
             {activeTab === "photos" && <RestaurantPhotos />}
           </div>
         )}

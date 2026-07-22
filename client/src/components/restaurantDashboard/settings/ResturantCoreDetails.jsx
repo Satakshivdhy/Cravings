@@ -4,7 +4,7 @@ import { useAuth } from "../../../context/AuthContext";
 import api from "../../../config/ApiConfig";
 import toast from "react-hot-toast";
 import { MdOutlineAddAPhoto, MdOutlineLockReset } from "react-icons/md";
-import PasswordChangeModal from "../../commonModals/PasswordChangeModal";
+// import PasswordChangeModal from "../../commonModals/PasswordChangeModal";
 import RunningLoader from "../../../assets/runningLoader.gif";
 
 const ResturantCoreDetails = () => {
