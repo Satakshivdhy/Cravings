@@ -233,3 +233,42 @@ export const OpenRestaurant = async (req, res, next) => {
     next();
   }
 };
+
+export const RestaurantUpdateLegalInfo = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const { legalName, companyType } = req.body;
+
+
+    if (!legalName || !companyType) {
+      const error = new Error("All fields are required");
+      error.statusCode = 400;
+      return next(error);
+    }
+
+    const existingRestaurant = await Restaurant.findOne({
+      managerId: currentUser._id,
+    });
+
+    if (!existingRestaurant) {
+      const error = new Error("Restaurant Not Found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    existingRestaurant.legal = {
+      legalName,
+      companyType,
+    };
+
+    await existingRestaurant.save();
+
+    return res.status(200).json({
+      message: "Legal information updated successfully",
+      data: existingRestaurant,
+    });
+  } catch (error) {
+    console.log(error.message);
+    next();
+  }
+};
