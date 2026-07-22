@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import {
   RestaurantUpdateProfile,
-  RestaurantGetData,
+  RestaurantGetData,RestaurantUpdateInfo,OpenRestaurant
 } from "../controller/restaurant.controller.js";
 import { RestaurantAuthProtect } from "../middleware/auth.middelware.js";
 
@@ -18,5 +18,14 @@ router.post(
 );
 
 router.get("/get-resturant-data", RestaurantAuthProtect, RestaurantGetData);
-
+router.put(
+  "/update-restaurant-info",
+  RestaurantAuthProtect,
+  RestaurantUpdateInfo,
+);
+router.patch(
+  "/change-open-status/:openStatus",
+  RestaurantAuthProtect,
+  OpenRestaurant,
+);
 export default router;
