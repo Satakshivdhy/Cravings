@@ -21,7 +21,7 @@ export const RestaurantGetData = async (req, res, next) => {
       return next(error);
     }
 
-    const restaurantData = await Restaurant.find({ managerId });
+    const restaurantData = await Restaurant.findOne({ managerId });
 
     if (restaurantData) {
       res.status(200).json({

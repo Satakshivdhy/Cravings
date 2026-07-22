@@ -1,10 +1,10 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 // import RestaurantInformation from "./settings/RestaurantInformation";
 import api from "../../config/ApiConfig";
 import toast from "react-hot-toast";
 import { RiLoader4Fill } from "react-icons/ri";
 import { useAuth } from "../../context/AuthContext";
-import Information from "./settings/restaurantInformation/index"
+import Information from "./settings/restaurantInformation/index";
 import ResturantCoreDetails from "./settings/ResturantCoreDetails";
 import RestaurantPhotos from "./settings/RestaurantPhotos";
 import Loader from "../../assets/runningLoader.gif";
@@ -18,10 +18,10 @@ const RestaurantSetting = () => {
     { id: "photos", label: "Photos" },
   ];
   const [activeTab, setActiveTab] = useState("information");
-   const [isLoadingResturantOpen, setIsLoadingResturantOpen] = useState(true);
+  const [isLoadingResturantOpen, setIsLoadingResturantOpen] = useState(true);
   const [isRestaurantOpen, setIsRestaurantOpen] = useState(
-    sessionStorage.getItem("RestaurantOpen") || false,
-  );  
+    () => sessionStorage.getItem("RestaurantOpen") || false,
+  );
 
   //Load Restaurant Data
   const [isLoadingRestaurant, setIsLoadingRestaurant] = useState(false);
@@ -37,15 +37,20 @@ const RestaurantSetting = () => {
         `/restaurant/get-resturant-data?id=${user._id}`,
       );
       console.log(res.data);
-      
+
       setRestaurantData(res.data.data);
       sessionStorage.setItem(
         "cravingRestaurant",
         JSON.stringify(res.data.data),
       );
       sessionStorage.setItem("RestaurantOpen", res.data.data.isOpen);
+      console.log("1");
+
+      console.log("API isOpen:", res.data.data.isOpen);
+      console.log("Stored:", sessionStorage.getItem("RestaurantOpen"));
 
       setIsRestaurantOpen(res.data.data.isOpen);
+      // console.log("sdafasfasf", restaurantOpen);/
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
@@ -87,7 +92,9 @@ const RestaurantSetting = () => {
   };
 
   useEffect(() => {
-    fetchRestaurantData();
+    if (user?._id) {
+      fetchRestaurantData();
+    }
   }, [user]);
 
   console.log(isRestaurantOpen);
@@ -98,15 +105,13 @@ const RestaurantSetting = () => {
         <div className="border-b border-(--color-secondary)/50 flex justify-between mb-2 w-full">
           <div className="flex gap-3 ">
             {Tabs.map((tab, idx) => (
-              
-                <div
-                  key={idx}
-                  className={`p-2 uppercase cursor-pointer ${activeTab === tab.id ? "text-(--color-primary) border-b-3 border-(--color-primary)" : ""}`}
-                  onClick={() => setActiveTab(tab.id)}
-                >
-                  {tab.label}
-                </div>
-              
+              <div
+                key={idx}
+                className={`p-2 uppercase cursor-pointer ${activeTab === tab.id ? "text-(--color-primary) border-b-3 border-(--color-primary)" : ""}`}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.label}
+              </div>
             ))}
           </div>
 
@@ -119,7 +124,7 @@ const RestaurantSetting = () => {
                 type="checkbox"
                 name="isOpen"
                 checked={isRestaurantOpen}
-                onClick={handleRestaurantOpen}
+                onChange={handleRestaurantOpen}
                 className=" w-4 h-4 accent-(--color-primary)"
               />
             )}

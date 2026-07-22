@@ -15,7 +15,7 @@ const RestaurantInformation = () => {
   const [isLoadingRestaurant, setIsLoadingRestaurant] = useState(false);
   const [loadingRestaurantError, setLoadingRestaurantError] = useState(null);
   const [restaurantData, setRestaurantData] = useState(
-    JSON.parse(sessionStorage.getItem("cravingRestaurant"))?.[0] || [],
+    JSON.parse(sessionStorage.getItem("cravingRestaurant")) || [],
   );
   const [editingRestaurant, setEditingRestaurant] = useState(false);
   const [restaurantFormData, setRestaurantFormData] = useState({

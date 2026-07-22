@@ -5,6 +5,9 @@ import toast from "react-hot-toast";
 
 const LeagalInformation = () => {
   const [editingLegalInfo, setEditingLegalInfo] = useState(false);
+  const [restaurantData, setRestaurantData] = useState(
+     JSON.parse(sessionStorage.getItem("cravingRestaurant")) || [],
+   );
 
   const handleSaveLegalInfo = () => {
     // Implement save logic here
@@ -17,8 +20,8 @@ const LeagalInformation = () => {
   };
 
   const [legalInfoFormData, setLegalInfoFormData] = useState({
-    legalName: "",
-    companyType: "",
+    legalName: restaurantData?.legal?.legalName ||"",
+    companyType: restaurantData?.legal?.companyType || "",
   });
 
   return (
