@@ -124,7 +124,6 @@ const RestaurantBankingDocuments = () => {
         </div>
       ) : (
         <>
-          <div className="flex flex-col gap-2 h-full">
             {/* Banking and Document */}
             <div>
               <div className="bg-(--color-base-100) rounded-lg p-3">
@@ -239,7 +238,6 @@ const RestaurantBankingDocuments = () => {
                 </div>
               </div>
             </div>
-          </div>
         </>
       )}
     </>

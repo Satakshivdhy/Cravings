@@ -105,7 +105,6 @@ const RestaurantSocialMediaLinks = () => {
         </div>
       ) : (
         <>
-          <div className="flex flex-col gap-2 h-full">
             <div>
               <div className="bg-(--color-base-100) rounded-lg p-3 h-full flex flex-col">
                 <div className="flex justify-between items-center mb-2">
@@ -175,7 +174,6 @@ const RestaurantSocialMediaLinks = () => {
                 </div>
               </div>
             </div>
-          </div>
         </>
       )}
     </>
