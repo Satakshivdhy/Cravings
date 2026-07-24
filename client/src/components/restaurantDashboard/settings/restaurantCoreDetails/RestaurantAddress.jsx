@@ -45,9 +45,29 @@ const RestaurantAddress = () => {
   const handleSaveRestaurant = async () => {
     try {
       setIsLoading(true);
+      const payload = {
+        restaurantName: restaurantFormData.restaurantName,
+        address: restaurantFormData.address,
+        city: restaurantFormData.city,
+        state: restaurantFormData.state,
+        pinCode: restaurantFormData.pinCode,
+        country: restaurantFormData.country,
+        geoLocation: {
+          lat: restaurantFormData.geoLat,
+          lon: restaurantFormData.geoLon,
+        },
+      };
 
       // Prepare payload for restaurant update
       console.log("restaurantFormData", restaurantFormData);
+      toast.success("Updating restaurant information...");
+      const res = await api.put(
+        `/restaurant/update-restaurant-address?id=${user._id}`,
+        payload,
+      );
+      setRestaurantData(res.data.data);
+      setEditingRestaurant(false);
+      toast.success("Restaurant information updated successfully!");
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Failed to update restaurant",

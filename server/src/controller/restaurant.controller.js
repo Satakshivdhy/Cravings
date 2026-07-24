@@ -272,3 +272,82 @@ export const RestaurantUpdateLegalInfo = async (req, res, next) => {
     next();
   }
 };
+
+export const RestaurantAddressUpdate = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const { address, city, state, pinCode, country, geoLocation } = req.body;
+    if
+  (!address || !city || !state || !pinCode || !country || !geoLocation) {
+      const error = new Error("All fields are required");
+      error.statusCode = 400;
+      return next(error);
+    }
+
+    const existingRestaurant = await Restaurant.findOne({
+      managerId: currentUser._id,
+    });
+
+    if (!existingRestaurant) {
+      const error = new Error("Restaurant Not Found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    existingRestaurant.address = address;
+    existingRestaurant.city = city;
+    existingRestaurant.state = state;
+    existingRestaurant.pinCode = pinCode;
+    existingRestaurant.country = country;
+    existingRestaurant.geoLocation = geoLocation;
+
+    await existingRestaurant.save();
+
+    return res.status(200).json({
+      message: "Address information updated successfully",
+      data: existingRestaurant,
+    });
+  } catch (error) {
+    console.log(error.message);
+    next();
+  }
+};
+
+
+export const RestaurantUpdateFinancialInfo = async (req, res, next) => {
+  try {
+    const currentUser = req.user;
+    const { bankName, accountNumber, ifscCode } = req.body;
+
+    if (!bankName || !accountNumber || !ifscCode) {
+      const error = new Error("All fields are required");
+      error.statusCode = 400;
+      return next(error);
+    }
+
+    const existingRestaurant = await Restaurant.findOne({
+      managerId: currentUser._id,
+    });
+
+    if (!existingRestaurant) {
+      const error = new Error("Restaurant Not Found");
+      error.statusCode = 404;
+      return next(error);
+    }
+
+    existingRestaurant.financialDetails = {
+      bankName,
+      accountNumber,
+      ifscCode,
+    };
+
+    await existingRestaurant.save();
+    return res.status(200).json({
+      message: "Financial information updated successfully",
+      data: existingRestaurant,
+    });
+  } catch (error) {
+    console.log(error.message);
+    next();
+  }
+};

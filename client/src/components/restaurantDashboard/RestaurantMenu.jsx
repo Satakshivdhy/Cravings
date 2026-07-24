@@ -41,7 +41,7 @@ const RestaurantMenu = ({ menuItems = defaultMenuItems }) => {
     <div className="overflow-y-auto h-full">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">Menu Items</h2>
-        <button className="rounded  flex items-center gap-2 text-[var(--color-primary)] px-4 py-2 text-sm font-medium border hover:bg-orange-700 hover:text-white">
+        <button className="rounded  flex items-center gap-2 text-(--color-primary) px-4 py-2 text-sm font-medium border hover:bg-orange-700 hover:text-white">
           <IoMdAddCircleOutline/> Add New Item
         </button>
       </div>

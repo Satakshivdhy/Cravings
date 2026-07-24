@@ -6,6 +6,8 @@ import {
   RestaurantUpdateInfo,
   OpenRestaurant,
   RestaurantUpdateLegalInfo,
+  RestaurantAddressUpdate,
+  RestaurantUpdateFinancialInfo,
 } from "../controller/restaurant.controller.js";
 import { RestaurantAuthProtect } from "../middleware/auth.middelware.js";
 
@@ -38,3 +40,15 @@ router.put(
   RestaurantUpdateLegalInfo,
 );
 export default router;
+
+router.put(
+  "/update-restaurant-address",
+  RestaurantAuthProtect,
+  RestaurantAddressUpdate,
+);
+
+router.put(
+  "/update-restaurant-financial-info",
+  RestaurantAuthProtect,
+  RestaurantUpdateFinancialInfo,
+)

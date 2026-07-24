@@ -33,14 +33,20 @@ const RestaurantBankingDocuments = () => {
     geoLat: restaurantData?.geoLocation?.lat || "",
     geoLon: restaurantData?.geoLocation?.lon || "",
     socialMediaLinks: restaurantData?.socialMediaLinks || [],
+    bankName: restaurantData?.bankName || "",
+    accountNumber: restaurantData?.accountNumber || "",
+    ifscCode: restaurantData?.ifscCode || "",
+    panCard: restaurantData?.panCard || "",
+    gst: restaurantData?.gst || "",
+    fssai: restaurantData?.fssai || "",
   });
 
   const handleRestaurantChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setRestaurantFormData({
-      ...restaurantFormData,
+    setRestaurantFormData((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
-    });
+    }));
   };
 
   const handleSaveRestaurant = async () => {
@@ -48,6 +54,21 @@ const RestaurantBankingDocuments = () => {
       setIsLoading(true);
 
       // Prepare payload for restaurant update
+
+
+      const payload = {
+        bankName: restaurantFormData.bankName,
+        accountNumber: restaurantFormData.accountNumber,
+        ifscCode: restaurantFormData.ifscCode,
+        panCard: restaurantFormData.panCard,
+        gst: restaurantFormData.gst,
+        fssai: restaurantFormData.fssai,
+      };
+
+      const res = await api.put("/restaurant/update-restaurant-financial-info", payload);
+      setRestaurantData(res.data.data);
+      setEditingRestaurant(false);
+      toast.success("Restaurant updated successfully");
       console.log("restaurantFormData", restaurantFormData);
     } catch (error) {
       toast.error(
@@ -77,6 +98,12 @@ const RestaurantBankingDocuments = () => {
       geoLat: restaurantData?.geoLocation?.lat || "",
       geoLon: restaurantData?.geoLocation?.lon || "",
       socialMediaLinks: restaurantData?.socialMediaLinks || [],
+      bankName: restaurantData?.bankName || "",
+      accountNumber: restaurantData?.accountNumber || "",
+      ifscCode: restaurantData?.ifscCode || "",
+      panCard: restaurantData?.panCard || "",
+      gst: restaurantData?.gst || "",
+      fssai: restaurantData?.fssai || "",
     });
     setEditingRestaurant(false);
   };
@@ -169,7 +196,7 @@ const RestaurantBankingDocuments = () => {
                     <input
                       type="text"
                       name="bankName"
-                      value={restaurantFormData?.address || ""}
+                      value={restaurantFormData?.bankName || ""}
                       onChange={handleRestaurantChange}
                       className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
                       disabled={!editingRestaurant}
@@ -182,7 +209,7 @@ const RestaurantBankingDocuments = () => {
                     <input
                       type="text"
                       name="accountNumber"
-                      value={restaurantFormData?.city || ""}
+                      value={restaurantFormData?.accountNumber || ""}
                       onChange={handleRestaurantChange}
                       className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
                       disabled={!editingRestaurant}
@@ -193,7 +220,7 @@ const RestaurantBankingDocuments = () => {
                     <input
                       type="text"
                       name="ifscCode"
-                      value={restaurantFormData?.state || ""}
+                      value={restaurantFormData?.ifscCode || ""}
                       onChange={handleRestaurantChange}
                       className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
                       disabled={!editingRestaurant}
@@ -206,7 +233,7 @@ const RestaurantBankingDocuments = () => {
                     <input
                       type="text"
                       name="panCard"
-                      value={restaurantFormData?.pinCode || ""}
+                      value={restaurantFormData?.panCard || ""}
                       onChange={handleRestaurantChange}
                       className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
                       disabled={!editingRestaurant}
@@ -217,7 +244,7 @@ const RestaurantBankingDocuments = () => {
                     <input
                       type="text"
                       name="gst"
-                      value={restaurantFormData?.country || ""}
+                      value={restaurantFormData?.gst || ""}
                       onChange={handleRestaurantChange}
                       className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
                       disabled={!editingRestaurant}
@@ -229,7 +256,7 @@ const RestaurantBankingDocuments = () => {
                     <input
                       type="text"
                       name="fssai"
-                      value={restaurantFormData?.country || ""}
+                      value={restaurantFormData?.fssai || ""}
                       onChange={handleRestaurantChange}
                       className={`w-full px-1.5 py-1 border border-(--color-secondary) ${editingRestaurant ? "bg-white" : "bg-(--color-base-100)"} rounded`}
                       disabled={!editingRestaurant}
